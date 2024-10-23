@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import com.bytedance.sdk.openadsdk.AdSlot
@@ -18,9 +19,11 @@ import net.niuxiaoer.flutter_gromore.event.AdEventHandler
 import net.niuxiaoer.flutter_gromore.utils.Utils
 import java.util.*
 import kotlin.concurrent.schedule
+import android.view.Window;
+import android.view.WindowManager;
 
 // Activity实例
-class FlutterGromoreSplash : AppCompatActivity() {
+class FlutterGromoreSplash : Activity() {
 
     private val TAG: String = this::class.java.simpleName
 
@@ -100,6 +103,10 @@ class FlutterGromoreSplash : AppCompatActivity() {
         logoContainer = findViewById(R.id.splash_ad_logo)
         containerWidth = Utils.getScreenWidthInPx(this)
         containerHeight = Utils.getScreenHeightInPx(this)
+        var params=window.attributes
+        params.width = WindowManager.LayoutParams.MATCH_PARENT
+        params.height = WindowManager.LayoutParams.MATCH_PARENT
+        window.attributes = params
         // logo显示
         handleLogo()
         // 初始化开屏广告

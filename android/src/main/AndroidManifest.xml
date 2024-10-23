@@ -8,7 +8,8 @@
             android:name=".view.FlutterGromoreSplash"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme" />
+            android:theme="@style/SplashTheme"
+            />
 
         <!-- 穿山甲 start================== -->
         <provider

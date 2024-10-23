@@ -2,7 +2,7 @@ group 'net.niuxiaoer.flutter_gromore'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.8.10'
     repositories {
         google()
         mavenCentral()
@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -74,6 +74,6 @@ dependencies {
 
 
     // 融合SDK
-    implementation(name: 'open_ad_sdk_6.0.1.4', ext: 'aar')
+    implementation files('lib/open_ad_sdk_6.0.1.4.aar')
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 }

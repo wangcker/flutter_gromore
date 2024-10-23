@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--  开屏页主题  -->
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowNoTitle">true</item>
+    <style name="SplashTheme" parent="android:style/Theme.Material.Dialog.NoActionBar">
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus" >false</item>
     </style>
+    <style name="FullScreenDialogTheme" parent="Theme.AppCompat.Dialog">
+      <!-- 上面说过，只要是Dialog，这两个属性必须设置 -->
+      <item name="android:windowIsFloating">false</item>
+      <item name="android:windowBackground">@android:color/transparent</item>
+      <!--设置透明状态栏，适用于SDK19（4.4）及以上版本-->
+      <item name="android:windowTranslucentStatus" >true</item>
+      <!-- 如果你不需要自定义状态栏颜色，下面两个可不要 -->
+      <item name="android:windowDrawsSystemBarBackgrounds" >true</item>
+      <item name="android:statusBarColor">@android:color/transparent</item>
+      <!-- 透明导航栏 -->
+      <item name="android:windowTranslucentNavigation">true</item>
+  </style>
     <!--  设置动画  -->
     <style name="WindowAnimationStyle">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
