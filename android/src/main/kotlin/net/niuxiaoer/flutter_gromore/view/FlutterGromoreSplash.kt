@@ -98,14 +98,17 @@ class FlutterGromoreSplash : Activity() {
 
     // 初始化
     private fun init() {
+        //window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        //window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        //window.setBackgroundDrawableResource(android.R.color.transparent);
         setContentView(R.layout.splash)
         container = findViewById(R.id.splash_ad_container)
         logoContainer = findViewById(R.id.splash_ad_logo)
         containerWidth = Utils.getScreenWidthInPx(this)
         containerHeight = Utils.getScreenHeightInPx(this)
         var params=window.attributes
-        params.width = WindowManager.LayoutParams.MATCH_PARENT
-        params.height = WindowManager.LayoutParams.MATCH_PARENT
+        params.width = containerWidth //WindowManager.LayoutParams.MATCH_PARENT
+        params.height = containerHeight //WindowManager.LayoutParams.MATCH_PARENT
         window.attributes = params
         // logo显示
         handleLogo()
@@ -224,7 +227,10 @@ class FlutterGromoreSplash : Activity() {
             override fun onSplashAdShow(p0: CSJSplashAd?) {
                 adShow = true
                 closeAdTimer.cancel()
-
+                var params=window.attributes
+                params.width = WindowManager.LayoutParams.MATCH_PARENT
+                params.height = WindowManager.LayoutParams.MATCH_PARENT
+                window.attributes = params
                 Log.d(TAG, "onAdShow")
                 sendEvent("onAdShow")
 
