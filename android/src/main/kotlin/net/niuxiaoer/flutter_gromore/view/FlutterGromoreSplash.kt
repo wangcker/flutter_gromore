@@ -21,6 +21,10 @@ import java.util.*
 import kotlin.concurrent.schedule
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.Display;
+import android.graphics.Point;
+import android.content.Context;
+import android.view.Gravity;
 
 // Activity实例
 class FlutterGromoreSplash : Activity() {
@@ -70,6 +74,7 @@ class FlutterGromoreSplash : Activity() {
         val adSlot = AdSlot.Builder()
             .setCodeId(adUnitId)
             .setImageAcceptedSize(containerWidth, containerHeight)
+            .setExpressViewAcceptedSize(containerWidth/Utils.getDensity(this), containerHeight/Utils.getDensity(this))
             .setMediationAdSlot(
                 MediationAdSlot.Builder()
                     .setSplashPreLoad(preload)
@@ -98,14 +103,14 @@ class FlutterGromoreSplash : Activity() {
 
     // 初始化
     private fun init() {
-        //window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         //window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         //window.setBackgroundDrawableResource(android.R.color.transparent);
         setContentView(R.layout.splash)
         container = findViewById(R.id.splash_ad_container)
         logoContainer = findViewById(R.id.splash_ad_logo)
-        containerWidth = Utils.getScreenWidthInPx(this)
-        containerHeight = Utils.getScreenHeightInPx(this)
+        containerWidth = getScreenWidth3(this) //Utils.getScreenWidthInPx(this)
+        containerHeight = getScreenHeight3(this) // Utils.getScreenHeightInPx(this)
         var params=window.attributes
         params.width = containerWidth //WindowManager.LayoutParams.MATCH_PARENT
         params.height = containerHeight //WindowManager.LayoutParams.MATCH_PARENT
@@ -140,6 +145,29 @@ class FlutterGromoreSplash : Activity() {
         }
 
     }
+
+    /**
+         * 包含虚拟导航栏高度
+         * @param context
+         * @return
+         */
+        fun getScreenWidth3(context: Context): Int {
+            val windowManager: WindowManager =
+                context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val defaultDisplay: Display = windowManager.getDefaultDisplay()
+            val outPoint = Point()
+            defaultDisplay.getRealSize(outPoint)
+            return outPoint.x
+        }
+
+        fun getScreenHeight3(context: Context): Int {
+            val windowManager: WindowManager =
+                context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val defaultDisplay: Display = windowManager.getDefaultDisplay()
+            val outPoint = Point()
+            defaultDisplay.getRealSize(outPoint)
+            return outPoint.y
+        }
 
     /**
      * 获取图片资源的id
@@ -189,6 +217,10 @@ class FlutterGromoreSplash : Activity() {
                 if (ad.splashView != null) {
                     Log.d(TAG, "onSplashAdLoadSuccess")
                     sendEvent("onSplashAdLoadSuccess")
+                    //var layoutParams = ad.splashView.getLayoutParams();
+                    //layoutParams.width=containerWidth
+                    //layoutParams.height=containerHeight
+                    //ad.splashView.setLayoutParams(layoutParams)
                     container.addView(ad.splashView)
                 } else {
                     Log.d(TAG, "splashView is null")
