@@ -6,9 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import com.bytedance.sdk.openadsdk.AdSlot
+import com.bytedance.sdk.openadsdk.CSJAdError
+import com.bytedance.sdk.openadsdk.CSJSplashAd
 import com.bytedance.sdk.openadsdk.TTAdNative
 import com.bytedance.sdk.openadsdk.TTAdSdk
-import com.bytedance.sdk.openadsdk.TTSplashAd
 import com.bytedance.sdk.openadsdk.mediation.ad.MediationAdSlot
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.platform.PlatformView
@@ -24,14 +25,14 @@ class FlutterGromoreSplashView(
         binaryMessenger: BinaryMessenger
 ) :
         FlutterGromoreBase(binaryMessenger, "${FlutterGromoreConstants.splashTypeId}/$viewId"),
-        PlatformView, TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener {
+        PlatformView, TTAdNative.CSJSplashAdListener, CSJSplashAd.SplashAdListener {
 
     private val TAG: String = this::class.java.simpleName
 
     // 开屏广告容器
     private var container: FrameLayout = FrameLayout(context)
 
-    private var splashAd: TTSplashAd? = null
+    private var splashAd: CSJSplashAd? = null
 
     init {
         initAd()
@@ -67,8 +68,8 @@ class FlutterGromoreSplashView(
                         .setBidNotify(isBidNotify)
                         .build())
                 .build()
-
-        adNativeLoader.loadSplashAd(adSlot, this)
+        adNativeLoader.loadSplashAd(adSlot, this, 3500)
+        //adNativeLoader.loadSplashAd(adSlot, this)
     }
 
     private fun finishSplash() {
@@ -87,57 +88,58 @@ class FlutterGromoreSplashView(
         finishSplash()
     }
 
-    override fun onAdClicked(p0: View?, p1: Int) {
-        Log.d(TAG, "onAdClicked")
-        postMessage("onAdClicked")
+
+
+
+    override fun onSplashLoadSuccess(ad: CSJSplashAd?) {
+        splashAd = ad
+
+        if (ad?.splashView != null) {
+            Log.d(TAG, "onSplashAdLoadSuccess")
+            postMessage("onSplashAdLoadSuccess")
+            container.addView(ad.splashView)
+        } else {
+            Log.d(TAG, "splashView is null")
+            finishSplash()
+        }
     }
 
-    override fun onAdShow(p0: View?, p1: Int) {
-        Log.d(TAG, "onAdShow")
-        postMessage("onAdShow")
-    }
-
-    override fun onAdSkip() {
-        Log.d(TAG, "onAdSkip")
-
-        finishSplash()
-        postMessage("onAdSkip")
-    }
-
-    override fun onAdTimeOver() {
-        Log.d(TAG, "onAdDismiss")
-
-        finishSplash()
-        postMessage("onAdDismiss")
-    }
-
-    override fun onError(p0: Int, p1: String?) {
+    override fun onSplashLoadFail(p0: CSJAdError?) {
         Log.d(TAG, "onSplashAdLoadFail")
 
         finishSplash()
         postMessage("onSplashAdLoadFail")
     }
 
-    override fun onTimeout() {
-        Log.d(TAG, "onAdLoadTimeout")
-
-        finishSplash()
-        postMessage("onAdLoadTimeout")
+    override fun onSplashRenderSuccess(ad: CSJSplashAd?) {
+        Log.d(TAG, "onSplashRenderSuccess")
+        postMessage("onSplashRenderSuccess")
+        ad?.setSplashAdListener(this)
     }
 
-    override fun onSplashAdLoad(ad: TTSplashAd?) {
-        Log.d(TAG, "onSplashAdLoadSuccess")
-        postMessage("onSplashAdLoadSuccess")
+    override fun onSplashRenderFail(ad: CSJSplashAd?, csjAdError: CSJAdError?) {
+        Log.d(TAG, "onSplashRenderFail ${csjAdError?.msg}")
+        postMessage("onSplashRenderFail")
 
-        ad?.let {
-            splashAd = it
-            it.setSplashInteractionListener(this)
+        finishSplash()
+    }
 
-            container.removeAllViews()
-            it.splashView?.let {  splashView ->
-                container.addView(splashView)
-            }
-        }
+    override fun onSplashAdShow(p0: CSJSplashAd?) {
+        Log.d(TAG, "onAdShow")
+        postMessage("onAdShow")
+
+    }
+
+    override fun onSplashAdClick(p0: CSJSplashAd?) {
+        Log.d(TAG, "onAdClicked")
+        postMessage("onAdClicked")
+    }
+
+    override fun onSplashAdClose(p0: CSJSplashAd?, p1: Int) {
+        Log.d(TAG, "onSplashAdClose")
+        postMessage("onSplashAdClose")
+
+        finishSplash()
     }
 
 }

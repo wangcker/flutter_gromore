@@ -41,7 +41,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 30
+    compileSdk 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -74,6 +74,8 @@ dependencies {
 
 
     // 融合SDK
-    implementation files('lib/open_ad_sdk_6.0.1.4.aar')
+    //implementation(name:'open_ad_sdk_6.0.1.4',ext:"aar")
+    //implementation files('lib/open_ad_sdk_6.0.1.4.aar')
+    compileOnly files('lib/open_ad_sdk_6.4.1.5.aar')
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 }

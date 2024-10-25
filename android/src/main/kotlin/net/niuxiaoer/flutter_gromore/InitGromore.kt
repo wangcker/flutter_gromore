@@ -57,7 +57,7 @@ class InitGromore(private val context: Context) : TTAdSdk.Callback {
             .appName(appName)
             .paid(paid)
             .allowShowNotify(allowShowNotify)
-            .useTextureView(useTextureView)
+            //.useTextureView(useTextureView)
             .debug(debug)
             .supportMultiProcess(supportMultiProcess)
             .customController(getTTCustomController(arguments))

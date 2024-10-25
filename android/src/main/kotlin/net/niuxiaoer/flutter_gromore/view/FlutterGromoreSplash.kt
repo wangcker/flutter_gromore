@@ -5,14 +5,11 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
-import com.bytedance.sdk.openadsdk.AdSlot
-import com.bytedance.sdk.openadsdk.CSJAdError
-import com.bytedance.sdk.openadsdk.CSJSplashAd
-import com.bytedance.sdk.openadsdk.TTAdNative.CSJSplashAdListener
-import com.bytedance.sdk.openadsdk.TTAdSdk
-import com.bytedance.sdk.openadsdk.mediation.ad.MediationAdSlot
+import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.CSJAdError;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.CSJSplashAd;
 import net.niuxiaoer.flutter_gromore.R
 import net.niuxiaoer.flutter_gromore.event.AdEvent
 import net.niuxiaoer.flutter_gromore.event.AdEventHandler
@@ -25,6 +22,8 @@ import android.view.Display;
 import android.graphics.Point;
 import android.content.Context;
 import android.view.Gravity;
+import com.bytedance.sdk.openadsdk.TTAdSdk
+import com.bytedance.sdk.openadsdk.mediation.ad.MediationAdSlot
 
 // Activity实例
 class FlutterGromoreSplash : Activity() {
@@ -74,7 +73,7 @@ class FlutterGromoreSplash : Activity() {
         val adSlot = AdSlot.Builder()
             .setCodeId(adUnitId)
             .setImageAcceptedSize(containerWidth, containerHeight)
-            .setExpressViewAcceptedSize(containerWidth/Utils.getDensity(this), containerHeight/Utils.getDensity(this))
+            //.setExpressViewAcceptedSize(containerWidth/Utils.getDensity(this), containerHeight/Utils.getDensity(this))
             .setMediationAdSlot(
                 MediationAdSlot.Builder()
                     .setSplashPreLoad(preload)
@@ -103,14 +102,14 @@ class FlutterGromoreSplash : Activity() {
 
     // 初始化
     private fun init() {
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        //window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         //window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         //window.setBackgroundDrawableResource(android.R.color.transparent);
         setContentView(R.layout.splash)
         container = findViewById(R.id.splash_ad_container)
         logoContainer = findViewById(R.id.splash_ad_logo)
-        containerWidth = getScreenWidth3(this) //Utils.getScreenWidthInPx(this)
-        containerHeight = getScreenHeight3(this) // Utils.getScreenHeightInPx(this)
+        containerWidth = Utils.getScreenWidthInPx(this)
+        containerHeight =  Utils.getScreenHeightInPx(this)
         var params=window.attributes
         params.width = containerWidth //WindowManager.LayoutParams.MATCH_PARENT
         params.height = containerHeight //WindowManager.LayoutParams.MATCH_PARENT
@@ -146,28 +145,6 @@ class FlutterGromoreSplash : Activity() {
 
     }
 
-    /**
-         * 包含虚拟导航栏高度
-         * @param context
-         * @return
-         */
-        fun getScreenWidth3(context: Context): Int {
-            val windowManager: WindowManager =
-                context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val defaultDisplay: Display = windowManager.getDefaultDisplay()
-            val outPoint = Point()
-            defaultDisplay.getRealSize(outPoint)
-            return outPoint.x
-        }
-
-        fun getScreenHeight3(context: Context): Int {
-            val windowManager: WindowManager =
-                context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val defaultDisplay: Display = windowManager.getDefaultDisplay()
-            val outPoint = Point()
-            defaultDisplay.getRealSize(outPoint)
-            return outPoint.y
-        }
 
     /**
      * 获取图片资源的id
@@ -208,8 +185,8 @@ class FlutterGromoreSplash : Activity() {
         init()
     }
 
-    private fun getCSJSplashAdListener(): CSJSplashAdListener {
-        return object : CSJSplashAdListener {
+    private fun getCSJSplashAdListener(): TTAdNative.CSJSplashAdListener {
+        return object : TTAdNative.CSJSplashAdListener {
             // 加载成功
             override fun onSplashLoadSuccess(ad: CSJSplashAd) {
                 splashAd = ad
@@ -217,10 +194,10 @@ class FlutterGromoreSplash : Activity() {
                 if (ad.splashView != null) {
                     Log.d(TAG, "onSplashAdLoadSuccess")
                     sendEvent("onSplashAdLoadSuccess")
-                    //var layoutParams = ad.splashView.getLayoutParams();
-                    //layoutParams.width=containerWidth
-                    //layoutParams.height=containerHeight
-                    //ad.splashView.setLayoutParams(layoutParams)
+                    var layoutParams = ad.splashView.getLayoutParams();
+                    layoutParams.width=containerWidth
+                    layoutParams.height=containerHeight
+                    ad.splashView.setLayoutParams(layoutParams)
                     container.addView(ad.splashView)
                 } else {
                     Log.d(TAG, "splashView is null")
