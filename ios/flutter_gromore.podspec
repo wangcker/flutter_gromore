@@ -16,13 +16,13 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
-  
-  s.dependency 'Ads-Fusion-CN-Beta', '6.0.0.5'
+
+  s.dependency 'Ads-CN-Beta', '6.5.0.1'
   s.subspec 'BUAdSDK' do |cs|
-    cs.dependency 'Ads-Fusion-CN-Beta/BUAdSDK', '6.0.0.5'
+    cs.dependency 'Ads-CN-Beta/BUAdSDK', '6.5.0.1'
   end
   s.subspec 'CSJMediation' do |cs|
-    cs.dependency 'Ads-Fusion-CN-Beta/CSJMediation', '6.0.0.5'
+    cs.dependency 'Ads-CN-Beta/CSJMediation', '6.5.0.1'
   end
   s.static_framework = true
   # Flutter.framework does not contain a i386 slice.

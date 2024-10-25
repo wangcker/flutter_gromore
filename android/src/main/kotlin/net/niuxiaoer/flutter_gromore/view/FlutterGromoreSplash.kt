@@ -1,29 +1,31 @@
 package net.niuxiaoer.flutter_gromore.view
 
+import android.app.Activity
+import android.content.Context
+import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Display
 import android.view.View
-import android.widget.FrameLayout
-import android.app.Activity
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatImageView
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.CSJAdError;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.CSJSplashAd;
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.bytedance.sdk.openadsdk.AdSlot
+import com.bytedance.sdk.openadsdk.CSJAdError
+import com.bytedance.sdk.openadsdk.CSJSplashAd
+import com.bytedance.sdk.openadsdk.TTAdNative
+import com.bytedance.sdk.openadsdk.TTAdSdk
+import com.bytedance.sdk.openadsdk.mediation.ad.MediationAdSlot
 import net.niuxiaoer.flutter_gromore.R
 import net.niuxiaoer.flutter_gromore.event.AdEvent
 import net.niuxiaoer.flutter_gromore.event.AdEventHandler
 import net.niuxiaoer.flutter_gromore.utils.Utils
 import java.util.*
 import kotlin.concurrent.schedule
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.Display;
-import android.graphics.Point;
-import android.content.Context;
-import android.view.Gravity;
-import com.bytedance.sdk.openadsdk.TTAdSdk
-import com.bytedance.sdk.openadsdk.mediation.ad.MediationAdSlot
 
 // Activity实例
 class FlutterGromoreSplash : Activity() {
@@ -31,7 +33,7 @@ class FlutterGromoreSplash : Activity() {
     private val TAG: String = this::class.java.simpleName
 
     // 广告容器
-    private lateinit var container: FrameLayout
+    private lateinit var container: CoordinatorLayout
     private lateinit var logoContainer: AppCompatImageView
     private var splashAd: CSJSplashAd? = null
 
@@ -102,14 +104,14 @@ class FlutterGromoreSplash : Activity() {
 
     // 初始化
     private fun init() {
-        //window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        //window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        //window.setBackgroundDrawableResource(android.R.color.transparent);
+
         setContentView(R.layout.splash)
         container = findViewById(R.id.splash_ad_container)
         logoContainer = findViewById(R.id.splash_ad_logo)
         containerWidth = Utils.getScreenWidthInPx(this)
         containerHeight =  Utils.getScreenHeightInPx(this)
+        //containerWidth = getScreenWidth3(this) //Utils.getScreenWidthInPx(this)
+        //containerHeight = getScreenHeight3(this) // Utils.getScreenHeightInPx(this)
         var params=window.attributes
         params.width = containerWidth //WindowManager.LayoutParams.MATCH_PARENT
         params.height = containerHeight //WindowManager.LayoutParams.MATCH_PARENT
@@ -119,6 +121,7 @@ class FlutterGromoreSplash : Activity() {
         // 初始化开屏广告
         initAd()
     }
+
 
     // logo的显示与否
     private fun handleLogo() {
@@ -144,7 +147,6 @@ class FlutterGromoreSplash : Activity() {
         }
 
     }
-
 
     /**
      * 获取图片资源的id
@@ -194,10 +196,11 @@ class FlutterGromoreSplash : Activity() {
                 if (ad.splashView != null) {
                     Log.d(TAG, "onSplashAdLoadSuccess")
                     sendEvent("onSplashAdLoadSuccess")
-                    var layoutParams = ad.splashView.getLayoutParams();
-                    layoutParams.width=containerWidth
-                    layoutParams.height=containerHeight
-                    ad.splashView.setLayoutParams(layoutParams)
+//                    var layoutParams = ad.splashView.getLayoutParams();
+//                    layoutParams.width=containerWidth
+//                    layoutParams.height=containerHeight
+//                    ad.splashView.setLayoutParams(layoutParams)
+                    ad.splashView.fitsSystemWindows = true
                     container.addView(ad.splashView)
                 } else {
                     Log.d(TAG, "splashView is null")

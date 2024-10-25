@@ -1,6 +1,4 @@
 PODS:
-  - Ads-Fusion-CN-Beta (6.0.0.5):
-    - Ads-Fusion-CN-Beta/BUAdSDK (= 6.0.0.5)
   - Ads-Fusion-CN-Beta/BUAdSDK (6.0.0.5)
   - Ads-Fusion-CN-Beta/CSJMediation (6.0.0.5):
     - Ads-Fusion-CN-Beta/BUAdSDK
@@ -13,17 +11,6 @@ PODS:
     - Ads-Fusion-CN-Beta/CSJMediation (>= 6.0.0.2)
   - Flutter (1.0.0)
   - flutter_gromore (0.0.1):
-    - Ads-Fusion-CN-Beta (= 6.0.0.5)
-    - Flutter
-    - flutter_gromore/BUAdSDK (= 0.0.1)
-    - flutter_gromore/CSJMediation (= 0.0.1)
-  - flutter_gromore/BUAdSDK (0.0.1):
-    - Ads-Fusion-CN-Beta (= 6.0.0.5)
-    - Ads-Fusion-CN-Beta/BUAdSDK (= 6.0.0.5)
-    - Flutter
-  - flutter_gromore/CSJMediation (0.0.1):
-    - Ads-Fusion-CN-Beta (= 6.0.0.5)
-    - Ads-Fusion-CN-Beta/CSJMediation (= 6.0.0.5)
     - Flutter
   - GDTMobSDK (4.14.63):
     - GDTMobSDK/GDTMobSDK (= 4.14.63)
@@ -67,12 +54,12 @@ SPEC CHECKSUMS:
   CSJMBaiduAdapter: 966e2992ad47a3b589a979f295b2a2a2212b0ee2
   CSJMGdtAdapter: af4675b025885fe2a482b91baae2d27e56001510
   CSJMKsAdapter: 78a2ae637a45e3e2c1c307697da357d25ebd5339
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_gromore: 43b8095366361a1a5136cdcfcb4708671500070e
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_gromore: 0cc907e4b4629d7fbe7ba112dd2c581f5b96fba0
   GDTMobSDK: 12270ef644af85e8032974b1a75df90593e96d1d
   KSAdSDK: 7754afd132df893c0c7a493fa878cbee7af6ff3c
   permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
 
-PODFILE CHECKSUM: 8a034b11d7ec0262e9bf49ae0baa2a8be0784616
+PODFILE CHECKSUM: d3a397fa9a659c7ef9e35bec3c214a50e588313b
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2
